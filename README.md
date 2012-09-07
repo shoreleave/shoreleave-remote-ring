@@ -14,7 +14,7 @@ shoreleave-remote-ring is available in Clojars.  Add it to your Maven project's
 <dependency>
   <groupId>com.cemerick</groupId>
   <artifactId>shoreleave-remote-ring</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
 </dependency>
 ```
 

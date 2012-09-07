@@ -1,4 +1,4 @@
-(defproject com.cemerick/shoreleave-remote-ring "0.0.1"
+(defproject com.cemerick/shoreleave-remote-ring "0.0.2"
   :description "A Ring- (and Compojure-) friendly server-side alternative to
 https://github.com/shoreleave/shoreleave-remote-noir"
   :url "http://github.com/cemerick/shoreleave-remote-ring"
