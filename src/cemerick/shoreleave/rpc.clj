@@ -26,7 +26,7 @@ metadata to the function name, e.g.:
      (defn ~@body)
      (add-remote
        (keyword (or (-> (var ~name) meta :remote-name)
-                    ~name))
+                    '~name))
        ~name)
      (var ~name)))
 
