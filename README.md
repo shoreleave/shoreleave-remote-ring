@@ -51,7 +51,7 @@ the genesis of shoreleave-remote.)
 
 ```clojure
 (ns ...
-  (:require [port79.rpc :refer (defremote)]))
+  (:require [cemerick.shoreleave.rpc :refer (defremote)]))
 
 (defremote remote-fn [arg1 arg2 ...] ...)
 ```
@@ -62,7 +62,7 @@ With bare Ring:
 
 ```clojure
 (ns ...
-  (:require [port79.rpc :as rpc])
+  (:require [cemerick.shoreleave.rpc :as rpc])
   (:use [ring.middleware params
                          keyword-params
                          nested-params
@@ -80,7 +80,7 @@ With bare Ring:
 
 ```clojure
 (ns ...
-  (:require [port79.rpc :as rpc]
+  (:require [cemerick.shoreleave.rpc :as rpc]
             [compojure.handler :as handler]))
 
 (def app (-> #'your-top-level-handler
@@ -112,7 +112,7 @@ with just a bit of metadata:
 
 ```clojure
 (ns ...
-  (:require [port79.rpc :refer (defremote)]))
+  (:require [cemerick.shoreleave.rpc :refer (defremote)]))
 
 (defremote ^{:remote-name :validations/is-email?} remote-fn
   [arg1 arg2 ...]
