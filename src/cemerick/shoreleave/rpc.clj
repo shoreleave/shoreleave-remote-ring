@@ -1,7 +1,8 @@
 (ns ^{:doc "Server-side RPC support for use with shoreleave (and maybe fetch?).
 Mostly copied from https://github.com/shoreleave/shoreleave-remote-noir;
 changed to eliminate the noir-isms..."}
-     cemerick.shoreleave.rpc)
+     cemerick.shoreleave.rpc
+  (:require [clojure.string :as s]))
 
 (def default-remote-uri "/_fetch")
 (def remotes (atom {}))
@@ -9,10 +10,19 @@ changed to eliminate the noir-isms..."}
 (defn add-remote [key func]
   (swap! remotes assoc key func))
 
+(defn- unescape [string]
+  "Fix for \\xnn escaped strings that come from cljs that the clj reader
+  does not understand.
+
+  See http://dev.clojure.org/jira/browse/CLJ-1025"
+  (s/replace
+    string #"\\x(..)"
+    (fn [m] (str (char (Integer/parseInt (second m) 16))))))
+
 (defn safe-read [s]
   ;; can we please have a civilization!?
   (binding [*read-eval* false]
-    (read-string s)))
+    (read-string (unescape s))))
 
 (defmacro defremote
   "Same as defn, but also registers the defined function as a remote.
