@@ -30,23 +30,33 @@ metadata to the function name, e.g.:
        ~name)
      (var ~name)))
 
+(defn- map-w-session? [x]
+  (and (instance? clojure.lang.PersistentArrayMap x)
+       (contains? x :session)
+       (contains? x :result)))
+
 (defn call-remote
-  [remote-key params]
+  [remote-key params request pass-request?]
   (if-let [func (@remotes remote-key)]
-    (let [result (apply func params)]
+    (let [out (apply func (if pass-request?
+                            (concat params [:request request])
+                            params))
+          result (if (map-w-session? out) (:result out) out)
+          session (if (map-w-session? out) (:session out) (:session request))]
       {:status 202
        :headers {"Content-Type" "application/clojure; charset=utf-8"}
+       :session session
        :body (pr-str result)})
     {:status 404}))
 
 (defn handle-rpc
-  [{{:keys [params remote]} :params :as request}]
-  (call-remote (keyword remote) (safe-read params)))
+  [{{:keys [params remote]} :params :as request} pass-request?]
+  (call-remote (keyword remote) (safe-read params) request pass-request?))
 
 (defn wrap-rpc
-  ([app] (wrap-rpc app default-remote-uri))
-  ([app remote-uri]
-    (fn [{:keys [request-method uri] :as request}]
-      (if (and (= :post request-method) (= remote-uri uri))
-        (handle-rpc request)
-        (app request)))))
+  [app & {:keys [remote-uri pass-request?]
+          :or {remote-uri default-remote-uri}}]
+  (fn [{:keys [request-method uri] :as request}]
+    (if (and (= :post request-method) (= remote-uri uri))
+      (handle-rpc request pass-request?)
+      (app request))))

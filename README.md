@@ -56,6 +56,23 @@ the genesis of shoreleave-remote.)
 (defremote remote-fn [arg1 arg2 ...] ...)
 ```
 
+If your remotes use request information, like sessions, you can get the request
+as a keyword:
+
+```clojure
+(defremote remote-fn [arg1 & {:keys [request]}] ...)
+```
+
+provided you tell wrap-rpc to pass request information. You can also modify
+session information by returning a dictionary from your remote:
+
+```clojure
+(defremote remote-fn [arg1 & {:keys [request]}]
+   ...
+   {:session modified-session
+    :result calculated-result})
+```
+
 ### 2. Mix in the `wrap-rpc` middleware (still server-side, still Clojure)
 
 With bare Ring:
@@ -87,6 +104,14 @@ With bare Ring:
            rpc/wrap-rpc
            handler/site
            ...))
+```
+
+To pass request information to each remote:
+
+```clojure
+(def app (-> #'your-top-level-handler
+           (rpc/wrap-rpc :pass-request? true)
+           ....)
 ```
 
 ### 3. Call your remotes (client-side now, ClojureScript)
