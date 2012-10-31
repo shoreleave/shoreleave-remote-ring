@@ -56,6 +56,17 @@ the genesis of shoreleave-remote.)
 (defremote remote-fn [arg1 arg2 ...] ...)
 ```
 
+To extract information, like session data, from the current request:
+
+```clojure
+(ns ...
+  (:require [cemerick.shoreleave.rpc :refer [defremote current-request]]))
+
+(defremote remote-fn [arg1 arg2 ...] 
+  (let [req (current-request)]
+    ...))
+```
+
 ### 2. Mix in the `wrap-rpc` middleware (still server-side, still Clojure)
 
 With bare Ring:

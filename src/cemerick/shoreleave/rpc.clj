@@ -30,6 +30,15 @@ metadata to the function name, e.g.:
        ~name)
      (var ~name)))
 
+(def ^{:dynamic true
+       :doc "Reference to current request, accessible in defremote through current-request"}
+  *request* nil)
+
+(defn current-request
+  "Retrieve current request, providing access from defremote."
+  []
+  *request*)
+
 (defn call-remote
   [remote-key params]
   (if-let [func (@remotes remote-key)]
@@ -41,7 +50,8 @@ metadata to the function name, e.g.:
 
 (defn handle-rpc
   [{{:keys [params remote]} :params :as request}]
-  (call-remote (keyword remote) (safe-read params)))
+  (binding [*request* request]
+    (call-remote (keyword remote) (safe-read params))))
 
 (defn wrap-rpc
   ([app] (wrap-rpc app default-remote-uri))
