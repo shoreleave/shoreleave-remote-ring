@@ -35,7 +35,7 @@ metadata to the function name, e.g.:
   (if-let [func (@remotes remote-key)]
     (let [result (apply func params)]
       {:status 202
-       :headers {"Content-Type" "application/clojure; charset=utf-8"}
+       :headers {"Content-Type" "application/edn; charset=utf-8"}
        :body (pr-str result)})
     {:status 404}))
 
@@ -50,3 +50,4 @@ metadata to the function name, e.g.:
       (if (and (= :post request-method) (= remote-uri uri))
         (handle-rpc request)
         (app request)))))
+
