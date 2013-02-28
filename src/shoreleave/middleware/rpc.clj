@@ -4,7 +4,12 @@
   shoreleave.middleware.rpc
   (:require [shoreleave.server-helpers :refer [safe-read]]))
 
+;; By default, remotes will hit `/_shoreleave` as their endpoint,
+;; but this can be overriden in the middleware hookup itself.
+;; For example: `(shoreleave.middleware.rpc/wrap-rpc "/_a_different_endpoint")`
 (def default-remote-uri "/_shoreleave")
+
+;; The remotes get collected in a hashmap: `{remote-name-kw remote-fn, ...}`
 (def remotes (atom {}))
 
 (defn add-remote [key func]
@@ -26,7 +31,13 @@ metadata to the function name, e.g.:
        ~name)
      (var ~name)))
 
-(defn remote-ns [namesp-sym & opts]
+(defn remote-ns
+  "Exposes an entire namespace as a remote API
+  and optionally aliases for use on the client side.
+
+  For example: `(remote-ns 'baseline.controllers.api :as \"api\")`
+  will allow you to call your client side API calls to look like `api/some-fn-there`"
+  [namesp-sym & opts]
   (let [{:keys [as]} (apply hash-map opts)
         namesp (try
                  (require namesp-sym)
@@ -54,6 +65,7 @@ metadata to the function name, e.g.:
   (call-remote (keyword remote) (safe-read params)))
 
 (defn wrap-rpc
+  "Top-level Ring middleware to enable Shoreleave RPC calls"
   ([app] (wrap-rpc app default-remote-uri))
   ([app remote-uri]
     (fn [{:keys [request-method uri] :as request}]

@@ -3,6 +3,11 @@ Mostly copied from https://github.com/shoreleave/shoreleave-remote-noir;
 changed to eliminate the noir-isms..."}
      cemerick.shoreleave.rpc)
 
+;; ATTENTION
+;; ===========
+;; This is here for backwards compatibility only, please use `shoreleave.middleware.rpc`
+
+
 (def default-remote-uri "/_fetch")
 (def remotes (atom {}))
 
