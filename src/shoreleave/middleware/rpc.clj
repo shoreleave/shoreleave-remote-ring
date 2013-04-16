@@ -60,9 +60,19 @@ metadata to the function name, e.g.:
     {:status 404
      :body "Remote not found."}))
 
+(def ^{:dynamic true
+       :doc "Reference to current request, accessible in defremote through current-request"}
+  *request* nil)
+
+(defn current-request
+  "Retrieve current request, providing access from defremote."
+  []
+  *request*)
+
 (defn handle-rpc
   [{{:keys [params remote]} :params :as request}]
-  (call-remote (keyword remote) (safe-read params)))
+  (binding [*request* request]
+    (call-remote (keyword remote) (safe-read params))))
 
 (defn wrap-rpc
   "Top-level Ring middleware to enable Shoreleave RPC calls"
