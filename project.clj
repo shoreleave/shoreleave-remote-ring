@@ -1,4 +1,4 @@
-(defproject shoreleave/shoreleave-remote-ring "0.3.0"
+(defproject shoreleave/shoreleave-remote-ring "0.3.1-SNAPSHOT"
   :description "A smarter client-side with ClojureScript : Ring- (and Compojure-) server-side Remotes support"
   :url "https://github.com/shoreleave/shoreleave-remote-ring"
   :license {:name "Eclipse Public License - v 1.0"
