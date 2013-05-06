@@ -1,6 +1,6 @@
 # shoreleave-remote-ring
 
-[shoreleave-remote-ring](http://github.com/cemerick/shoreleave-remote-ring) is
+[shoreleave-remote-ring](https://github.com/shoreleave/shoreleave-remote-ring) is
 an alternative implementation of
 [shoreleave-remote-noir](https://github.com/shoreleave/shoreleave-remote-noir),
 aiming to be a well-behaved Ring/Compojure library and middleware.
@@ -12,16 +12,16 @@ shoreleave-remote-ring is available in Clojars.  Add it to your Maven project's
 
 ```xml
 <dependency>
-  <groupId>com.cemerick</groupId>
+  <groupId>shoreleave</groupId>
   <artifactId>shoreleave-remote-ring</artifactId>
-  <version>0.0.2</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 
 or your leiningen project.clj:
 
 ```clojure
-[com.cemerick/shoreleave-remote-ring "0.0.2"]
+[shoreleave/shoreleave-remote-ring "0.3.0"]
 ```
 
 ## Usage
@@ -51,7 +51,7 @@ the genesis of shoreleave-remote.)
 
 ```clojure
 (ns ...
-  (:require [cemerick.shoreleave.rpc :refer (defremote)]))
+  (:require [shoreleave.middleware.rpc :refer (defremote)]))
 
 (defremote remote-fn [arg1 arg2 ...] ...)
 ```
@@ -62,7 +62,7 @@ With bare Ring:
 
 ```clojure
 (ns ...
-  (:require [cemerick.shoreleave.rpc :as rpc])
+  (:require [shoreleave.middleware.rpc :as rpc])
   (:use [ring.middleware params
                          keyword-params
                          nested-params
@@ -80,7 +80,7 @@ With bare Ring:
 
 ```clojure
 (ns ...
-  (:require [cemerick.shoreleave.rpc :as rpc]
+  (:require [shoreleave.middleware.rpc :as rpc]
             [compojure.handler :as handler]))
 
 (def app (-> #'your-top-level-handler
@@ -112,7 +112,7 @@ with just a bit of metadata:
 
 ```clojure
 (ns ...
-  (:require [cemerick.shoreleave.rpc :refer (defremote)]))
+  (:require [shoreleave.middleware.rpc :refer (defremote)]))
 
 (defremote ^{:remote-name :validations/is-email?} remote-fn
   [arg1 arg2 ...]
