@@ -5,10 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
             :comments "See the notice in README.mkd or details in LICENSE_epl.html"}
-  :dependencies [[org.clojure/clojure "1.4.0"]
-                 [org.clojure/tools.reader "0.7.0"]]
-  :dev-dependencies [;[cdt "1.2.6.2-SNAPSHOT"]
-                     ;[lein-cdt "1.0.0"] ; use lein cdt to attach
-                     ;[lein-autodoc "0.9.0"]
-                     [lein-marginalia "0.7.1"]])
+  :min-lein-version "2.0.0"
+  :dependencies [[org.clojure/clojure "1.5.1"]
+                 [org.clojure/tools.reader "0.7.7"]]
+  :profiles {:dev {:dependencies [[lein-marginalia "0.7.1"]]}})
 
