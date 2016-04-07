@@ -43,8 +43,8 @@ metadata to the function name, e.g.:
                  (require namesp-sym)
                  (find-ns namesp-sym)
                  (catch Exception e
-                   (throw (Exception. (str "Could not locate a namespace when aliasing remotes: " namesp-sym))
-                          e)))
+                   (throw (Exception. (str "Could not locate a namespace when aliasing remotes: " namesp-sym)
+                          e))))
         public-fns (ns-publics namesp)]
     (doseq [[fn-name fn-var] public-fns]
       (when (fn? (var-get fn-var))
